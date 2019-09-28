@@ -14,15 +14,15 @@
  */
 package org.pitest.mutationtest.report.csv;
 
-import java.io.IOException;
-import java.io.Writer;
-
-import java.util.Optional;
 import org.pitest.mutationtest.ClassMutationResults;
 import org.pitest.mutationtest.MutationResult;
 import org.pitest.mutationtest.MutationResultListener;
 import org.pitest.util.ResultOutputStrategy;
 import org.pitest.util.Unchecked;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Optional;
 
 public class CSVReportListener implements MutationResultListener {
 
@@ -74,12 +74,14 @@ public class CSVReportListener implements MutationResultListener {
     try {
 
       for (final MutationResult mutation : metaData.getMutations()) {
-        this.out.write(makeCsv(mutation.getDetails().getFilename(), mutation
-            .getDetails().getClassName().asJavaName(), mutation.getDetails()
-            .getMutator(), mutation.getDetails().getMethod(), mutation
-            .getDetails().getLineNumber(), mutation.getStatus(),
-            createKillingTestDesc(mutation.getKillingTest()))
-            + System.getProperty("line.separator"));
+        this.out.write(makeCsv(mutation.getDetails().getFilename(),
+            mutation.getDetails().getClassName().asInternalName(),
+            mutation.getDetails().getMutator(),
+            mutation.getDetails().getId().getLocation().getMethodName()
+                + mutation.getDetails().getId().getLocation().getMethodDesc(),
+            mutation.getDetails().getLineNumber(), mutation.getStatus(),
+            createKillingTestDesc(mutation.getKillingTest())) + System
+            .getProperty("line.separator"));
       }
 
     } catch (final IOException ex) {

@@ -50,7 +50,7 @@ public class CSVReportListenerTest {
             DetectionStatus.KILLED, "foo"));
     this.testee.handleMutationResult(MutationTestResultMother
         .createClassResults(mr));
-    final String expected = "file,clazz,mutator,method,42,KILLED,foo"
+    final String expected = "file,clazz,mutator,method()I,42,KILLED,foo"
         + NEW_LINE;
     verify(this.out).write(expected);
   }
@@ -62,9 +62,8 @@ public class CSVReportListenerTest {
             DetectionStatus.SURVIVED));
     this.testee.handleMutationResult(MutationTestResultMother
         .createClassResults(mr));
-    final String expected = "file,clazz,mutator,method,42,SURVIVED,none"
+    final String expected = "file,clazz,mutator,method()I,42,SURVIVED,none"
         + NEW_LINE;
-
     verify(this.out).write(expected);
   }
 
